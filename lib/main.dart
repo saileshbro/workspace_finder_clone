@@ -1,111 +1,325 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:flutter/services.dart';
+import 'package:workspace_finder_clone/assets.dart';
+import 'package:flutter/cupertino.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarColor: Colors.transparent, //top bar color
+  // ));
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color(0xfffefefe),
+        fontFamily: 'SFProDisplay',
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+final List<String> chips = ['10+ People', 'Cafeteria', 'WIFI', 'Sports'];
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Assets.lighterFontColor,
+        selectedItemColor: Assets.heavyDark,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.calendar),
+            title: Text(""),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text(""),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.heart),
+            title: Text(""),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            title: Text(""),
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: SingleChildScrollView(
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            _buildHeader(),
+            _horizontalChipSlider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Column(
+                children: <Widget>[
+                  _activityCard(),
+                  _activityCard(),
+                  _activityCard(),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Container _activityCard() {
+    return Container(
+      height: 240,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(height: 160, color: Colors.grey[100]),
+              ),
+              Positioned(
+                top: 18,
+                right: 16,
+                child: Icon(
+                  FontAwesomeIcons.heart,
+                  size: 15,
+                  color: Assets.lighterDark.withOpacity(.5),
+                ),
+              ),
+              Positioned(
+                bottom: 5,
+                left: 15,
+                right: 15,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.star,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          4.8.toString(),
+                          style: TextStyle(
+                            color: Assets.boldFontColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          '(21 ratings)',
+                          style: TextStyle(color: Assets.lighterFontColor),
+                        )
+                      ],
+                    ),
+                    FlatButton(
+                      color: Assets.heavyDark,
+                      onPressed: () {},
+                      child: Text(
+                        '\$29/day',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '301 Broadway, Manhatten #5219',
+                  style: TextStyle(
+                    color: Assets.boldFontColor,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '40 People',
+                      style: TextStyle(
+                        color: Assets.lighterFontColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 6,
+                      width: 6,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Assets.lighterFontColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Free Wifi',
+                      style: TextStyle(
+                        color: Assets.lighterFontColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 6,
+                      width: 6,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Assets.lighterFontColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Cafe',
+                      style: TextStyle(
+                        color: Assets.lighterFontColor,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _horizontalChipSlider() {
+    return Container(
+      height: 70,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: chips.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 18,
+                ),
+                Chip(
+                  label: Text(
+                    'New Filter',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Assets.lighterDark,
+                  padding: EdgeInsets.all(8),
+                ),
+                SizedBox(
+                  width: 10,
+                )
+              ],
+            );
+          }
+          return Row(
+            children: <Widget>[
+              Chip(
+                label: Text(
+                  chips[index - 1],
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Assets.lighterFontColor,
+                padding: EdgeInsets.all(8),
+              ),
+              SizedBox(
+                width: 10,
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Container _buildHeader() {
+    return Container(
+      decoration: BoxDecoration(
+          border: BorderDirectional(
+              bottom: BorderSide(
+        color: Assets.lighterFontColor.withOpacity(0.3),
+      ))),
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 45.0, left: 25, right: 25, bottom: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Assets.lighterFontColor,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Dec 29,9 am - 6 pm",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                  FontAwesomeIcons.paperPlane,
+                  size: 13,
+                  color: Assets.lighterFontColor,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "New York, NY",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
